@@ -4,7 +4,9 @@
   "description": "Todo list project assignment from The Odin Project",
   "main": "webpack.common.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.dev.js --watch",
+    "start": "webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
