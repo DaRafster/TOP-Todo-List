@@ -1,5 +1,5 @@
 class Project {
-  static numOfTodos = 0;
+  static numOfProjects = 0;
   constructor(name) {
     this.name = name;
     this.todos = [];
