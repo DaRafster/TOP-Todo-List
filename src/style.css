@@ -1,3 +1,32 @@
-h1 {
-    color: red;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    height: 100%;
+    background-color: #e9ecef;
+}
+
+.sidebar {
+    width: 17.5%;
+    height: 100%;
+    background-color: #495057;
+    color: white;
+    padding: 20px 0 0 30px;
+}
+
+.sidebar h1 {
+    margin-bottom: 50px;
+}
+
+.sidebar h2 {
+    display: inline;
+    margin-right: 5px;
+}
+
+.add-project-btn {
+    font-size: 15px;
+    padding: 5px;
+    cursor: pointer;
 }
