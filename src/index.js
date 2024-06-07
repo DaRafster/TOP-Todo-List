@@ -28,12 +28,12 @@ closeProjectDialogButton.addEventListener("click", () => {
 
 projectForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  console.log("hi");
   const projectName = document.querySelector("#projectDialog input").value;
   let project = new Project(projectName);
   localStorage.setItem(projectName, JSON.stringify(project));
   updateProjectList(projectName);
   loadProject(projectName);
+  projectDialog.close();
 });
 
 // showTodoDialogButton.addEventListener("click", () => {

@@ -14,9 +14,9 @@ function initialLoad() {
 }
 
 function loadProject(projectName) {
+  const content = document.querySelector("#content");
   const tempProject = JSON.parse(localStorage.getItem(projectName));
-  document.querySelector("#content").innerHTML = `
-  <h1>${tempProject._name}</h1>`;
+  content.innerHTML = `<div><h2>${tempProject._name}</h2><button class = "add-new-todo">New Task +</button><div>`;
 }
 
 function loadProjectList() {
