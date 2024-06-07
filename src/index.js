@@ -9,9 +9,7 @@ import {
 import { Project } from "./project";
 
 const projectDialog = document.querySelector("#projectDialog");
-const todoDialog = document.querySelector("#todoDialog");
 const showProjectDialogButton = document.querySelector(".add-project-btn");
-const showTodoDialogButton = document.querySelector(".add-todo-btn");
 const closeProjectDialogButton = document.querySelector(
   "#projectDialog button"
 );
@@ -35,14 +33,5 @@ projectForm.addEventListener("submit", (event) => {
   loadProject(projectName);
   projectDialog.close();
 });
-
-// showTodoDialogButton.addEventListener("click", () => {
-//   todoDialog.showModal();
-// });
-
-// // "Close" button closes the dialog
-// todoDialog.addEventListener("click", () => {
-//   todoDialog.close();
-// });
 
 initialLoad();

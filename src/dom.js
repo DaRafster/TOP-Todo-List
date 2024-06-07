@@ -11,6 +11,16 @@ function initialLoad() {
   }
 
   loadProjectList();
+  const todoDialog = document.querySelector("#todoDialog");
+  const showTodoDialogButton = document.querySelector(".add-new-todo");
+
+  showTodoDialogButton.addEventListener("click", () => {
+    todoDialog.showModal();
+  });
+
+  todoDialog.addEventListener("submit", () => {
+    todoDialog.close();
+  });
 }
 
 function loadProject(projectName) {
