@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "DM-Sans-Italic";
+    src: url("./fonts/DMSans-Italic-VariableFont_opsz\,wght.ttf");
+}
+
+@font-face {
+    font-family: "DM-Sans";
+    src: url("./fonts/DMSans-VariableFont_opsz\,wght.ttf");
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,27 +16,69 @@
 body, html {
     height: 100%;
     background-color: #e9ecef;
+    font-family: "DM-Sans";
 }
 
 .sidebar {
     width: 17.5%;
-    height: 100%;
+    height: calc(100% - 40px);
     background-color: #495057;
     color: white;
-    padding: 20px 0 0 30px;
+    padding: 40px 0 0 30px;
+    float: left;
 }
 
 .sidebar h1 {
+    font-family: "DM-Sans-Italic";
     margin-bottom: 50px;
 }
 
-.sidebar h2 {
-    display: inline;
-    margin-right: 5px;
+#content h1 {
+    text-align: center;
+}
+
+form label, form input {
+    display: block;
+}
+
+dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    height: 100px;
+}
+
+.project-list-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
 }
 
 .add-project-btn {
-    font-size: 15px;
-    padding: 5px;
     cursor: pointer;
+    margin-left: 5px;
+}
+
+.project-list button {
+    display: block;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background-color: inherit;
+    color: white;
+    font-family: "DM-Sans";
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.project-list button:first-child {
+    margin-top: 30px;
+}
+
+#content {
+    padding-top: 30px;
 }

@@ -1,25 +1,24 @@
 class Project {
-  static numOfProjects = 0;
   constructor(name) {
-    this.name = name;
-    this.todos = [];
+    this._name = name;
+    this._todos = [];
   }
 
   get name() {
-    return this.name;
+    return this._name;
   }
 
   set name(name) {
-    this.name = name;
+    this._name = name;
   }
 
   addToDo(item) {
-    this.todos.push(item);
+    this._todos.push(item);
     numOfTodos++;
   }
 
   removeToDo(index) {
-    this.todos.splice(index, 1);
+    this._todos.splice(index, 1);
     numOfTodos--;
   }
 }

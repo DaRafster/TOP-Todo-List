@@ -8,8 +8,36 @@
   <body>
     <div class="sidebar">
       <h1>AniTasks</h1>
-      <h2>Your Projects</h2>
-      <button class="add-project-btn">+</button>
+      <h2>Your Projects <span class="add-project-btn">+</span></h2>
+
+      <dialog id="projectDialog">
+        <h3>New Project</h3>
+        <form action="">
+          <input
+            type="text"
+            name="projectName"
+            id="projectName"
+            placeholder="Enter project name"
+          />
+          <button type="button">Cancel</button>
+          <button class="confirmProject" type="submit">Add Project</button>
+        </form>
+      </dialog>
+
+      <dialog id="todoDialog">
+        <form action="">
+          <label for="todoTitle">Todo title: </label>
+          <input type="text" name="todoTitle" id="todoTitle" />
+          <label for="todoDesc">Todo title: </label>
+          <input type="text" name="todoDesc" id="todoDesc" />
+          <label for="todoDate">Due date: </label>
+          <input type="date" name="todoDate" id="todoDate" />
+          <button type="button">Cancel</button>
+          <button class="confirmTodo" type="submit">Add Todo</button>
+        </form>
+      </dialog>
+
+      <div class="project-list"></div>
     </div>
     <div id="content"></div>
   </body>
