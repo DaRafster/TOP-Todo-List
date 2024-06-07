@@ -13,7 +13,6 @@ const showProjectDialogButton = document.querySelector(".add-project-btn");
 const closeProjectDialogButton = document.querySelector(
   "#projectDialog button"
 );
-const closeTodoDialogButton = document.querySelector("#todoDialog button");
 const projectForm = document.querySelector("#projectDialog form");
 
 showProjectDialogButton.addEventListener("click", () => {

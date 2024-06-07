@@ -21,6 +21,18 @@ function initialLoad() {
   todoDialog.addEventListener("submit", () => {
     todoDialog.close();
   });
+
+  const closeTodoDialogButton = document.querySelector("#todoDialog button");
+  const confirmTodoDialogButton = document.querySelector(".confirmTodo");
+
+  closeTodoDialogButton.addEventListener("click", () => {
+    todoDialog.close();
+  });
+
+  confirmTodoDialogButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    todoDialog.close();
+  });
 }
 
 function loadProject(projectName) {

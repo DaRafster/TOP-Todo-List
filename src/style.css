@@ -136,3 +136,8 @@ dialog {
     align-items: center;
     font-weight: 550;
 }
+
+#todoDialog {
+    width: 20%;
+    height: 30%;
+}
