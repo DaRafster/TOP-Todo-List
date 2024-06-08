@@ -16,10 +16,12 @@ const closeProjectDialogButton = document.querySelector(
 const projectForm = document.querySelector("#projectDialog form");
 
 showProjectDialogButton.addEventListener("click", () => {
+  projectForm.reset();
   projectDialog.showModal();
 });
 
 closeProjectDialogButton.addEventListener("click", () => {
+  projectForm.reset();
   projectDialog.close();
 });
 

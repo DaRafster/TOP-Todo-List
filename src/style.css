@@ -44,15 +44,6 @@ form label, form input {
     display: block;
 }
 
-dialog {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    height: 100px;
-}
-
 .project-list-header {
     display: flex;
     width: 100%;
@@ -239,7 +230,7 @@ dialog {
 
 .priorityOptions input[type="radio"] {
     opacity: 0.01;
-    z-index: 89;
+    z-index: 100;
     cursor: pointer;
   }
   
@@ -264,7 +255,13 @@ dialog {
 }
 
 dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 20px;
+    height: 100px;
     animation: fade-out 0.5s ease-out;
+    transform: translate(-50%, -50%);
   }
   
   dialog[open] {
@@ -284,7 +281,7 @@ dialog {
   
     100% {
       opacity: 1;
-    }
+    } 
   }
   
   @keyframes fade-out {

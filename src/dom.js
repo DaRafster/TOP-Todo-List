@@ -13,12 +13,15 @@ function initialLoad() {
   loadProjectList();
   const todoDialog = document.querySelector("#todoDialog");
   const showTodoDialogButton = document.querySelector(".add-new-todo");
+  const todoForm = todoDialog.querySelector("form");
 
   showTodoDialogButton.addEventListener("click", () => {
+    todoForm.reset();
     todoDialog.showModal();
   });
 
   todoDialog.addEventListener("submit", () => {
+    todoForm.reset();
     todoDialog.close();
   });
 
