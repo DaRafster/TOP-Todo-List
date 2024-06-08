@@ -1,41 +1,41 @@
 class Todo {
   constructor(title, description, dueDate, priority) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
+    this._title = title;
+    this._description = description;
+    this._dueDate = dueDate;
+    this._priority = priority;
   }
 
   get title() {
-    return this.title;
+    return this._title;
   }
 
   set title(title) {
-    this.title = title;
+    this._title = title;
   }
 
   get description() {
-    this.description = description;
+    this._description = description;
   }
 
   set description(description) {
-    this.description = description;
+    this._description = description;
   }
 
   get dueDate() {
-    return this.dueDate;
+    return this._dueDate;
   }
 
   set dueDate(dueDate) {
-    this.dueDate = dueDate;
+    this._dueDate = dueDate;
   }
 
   get priority() {
-    return this.priority;
+    return this._priority;
   }
 
   set priority(priority) {
-    this.priority = priority;
+    this._priority = priority;
   }
 }
 
