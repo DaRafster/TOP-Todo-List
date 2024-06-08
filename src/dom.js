@@ -22,7 +22,7 @@ function initialLoad() {
     todoDialog.close();
   });
 
-  const closeTodoDialogButton = document.querySelector("#todoDialog button");
+  const closeTodoDialogButton = document.querySelector("#cancelButton");
   const confirmTodoDialogButton = document.querySelector(".confirmTodo");
 
   closeTodoDialogButton.addEventListener("click", () => {
@@ -39,6 +39,16 @@ function loadProject(projectName) {
   const content = document.querySelector("#content");
   const tempProject = JSON.parse(localStorage.getItem(projectName));
   content.innerHTML = `<div><h2>${tempProject._name}</h2><button class = "add-new-todo">New Task +</button><div>`;
+  const todoDialog = document.querySelector("#todoDialog");
+  const showTodoDialogButton = document.querySelector(".add-new-todo");
+
+  showTodoDialogButton.addEventListener("click", () => {
+    todoDialog.showModal();
+  });
+
+  todoDialog.addEventListener("submit", () => {
+    todoDialog.close();
+  });
 }
 
 function loadProjectList() {

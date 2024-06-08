@@ -30,14 +30,68 @@
         <dialog id="todoDialog">
           <h3>New Task</h3>
           <form action="">
-            <label for="todoTitle">Todo title: </label>
-            <input type="text" name="todoTitle" id="todoTitle" />
-            <label for="todoDesc">Todo title: </label>
-            <input type="text" name="todoDesc" id="todoDesc" />
-            <label for="todoDate">Due date: </label>
-            <input type="date" name="todoDate" id="todoDate" />
-            <button type="button">Cancel</button>
-            <button class="confirmTodo" type="submit">Add Todo</button>
+            <input
+              type="text"
+              name="todoTitle"
+              id="todoTitle"
+              placeholder="Enter task"
+            />
+            <label for="todoDesc">Description: </label>
+            <textarea
+              name="todoDesc"
+              id="todoDesc"
+              rows="5"
+              placeholder="Enter description"
+            ></textarea>
+            <div>
+              <div>
+                <label for="todoDate">Due date: </label>
+                <input type="date" name="todoDate" id="todoDate" />
+              </div>
+              <div>
+                <label for="todoTime">Time due: </label>
+                <input type="time" name="todoTime" id="todoTime" />
+              </div>
+            </div>
+            <p>Priority:</p>
+            <ul class="priorityOptions">
+              <li>
+                <label class="btn">
+                  <input
+                    type="radio"
+                    name="priorityOption"
+                    id="priorityOption1"
+                  />
+                  Low
+                </label>
+              </li>
+              <li>
+                <label class="btn">
+                  <input
+                    type="radio"
+                    name="priorityOption"
+                    id="priorityOption2"
+                  />
+                  Medium
+                </label>
+              </li>
+              <li>
+                <label class="btn">
+                  <input
+                    type="radio"
+                    name="priorityOption"
+                    id="priorityOption3"
+                  />
+                  High
+                </label>
+              </li>
+            </ul>
+            <div class="taskDialogOptions">
+              <button type="button" id="cancelButton">Cancel</button>
+              <button id="confirm" class="confirmTodo" type="submit">
+                Add Task
+              </button>
+            </div>
           </form>
         </dialog>
 
