@@ -5,7 +5,6 @@ import {
   loadProject,
   loadProjectList,
   initialLoad,
-  addTask,
 } from "./dom";
 import { Project } from "./project";
 

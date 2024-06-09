@@ -1,5 +1,6 @@
 import { Project } from "./project";
 import { Todo } from "./todo";
+import { format, isValid } from "date-fns";
 
 function initialLoad() {
   if (localStorage.length === 0) {
@@ -34,7 +35,7 @@ function loadProject(projectName) {
   const todoDialog = document.querySelector("#todoDialog");
   const todoForm = todoDialog.querySelector("form");
   const showTodoDialogButton = document.querySelector(".add-new-todo");
-
+  loadTasks();
   showTodoDialogButton.addEventListener("click", () => {
     todoForm.reset();
     todoDialog.showModal();
@@ -42,7 +43,7 @@ function loadProject(projectName) {
 
   todoForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    addTask();
+    createTodo();
     todoForm.reset();
     todoDialog.close();
   });
@@ -72,24 +73,29 @@ function updateProjectList(projectName) {
   projectList.appendChild(projectTitle);
 }
 
-function addTask() {
-  const todoDialogForm = document.querySelector("#todoDialog form");
-  const taskName = todoDialogForm.querySelector("#todoTitle").value;
-  const taskDescription = todoDialogForm.querySelector("#todoDesc").value;
-  const taskDate = todoDialogForm.querySelector("#todoDate").value;
+function loadTasks() {
+  const projectName = document.querySelector(".current-project").innerHTML;
+  const project = JSON.parse(localStorage.getItem(projectName));
+  project._todos.forEach((todo) => {
+    loadTask(todo);
+  });
+}
+
+function loadTask(task) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
+  let [year, month, day] = task._dueDate.split("-");
+  const dateObject = new Date(parseInt(year), parseInt(month), parseInt(day));
 
-  console.log(taskDate);
   taskContainer.innerHTML = `
   <div class = "task-info">
   <button class = "taskDone"></button>
   <div>
   <div class = "task-info2">
-  <h4 class = "taskTitle">${taskName}</h4>
-  <p>${taskDate}</p>
+  <h4 class = "taskTitle">${task._title}</h4>
+  <p>${isValid(dateObject) ? format(dateObject, "LLLL d, y") : ""}</p>
   </div>
-  <p class = "taskDescription">${taskDescription}</p>
+  <p class = "taskDescription">${task._description}</p>
   </div>
   </div>
   `;
@@ -98,10 +104,27 @@ function addTask() {
   content.appendChild(taskContainer);
 }
 
+function createTodo() {
+  const projectName = document.querySelector(".current-project").innerHTML;
+  const taskName = document.querySelector("#todoTitle").value;
+  const taskDescription = document.querySelector("#todoDesc").value;
+  const dueDate = document.querySelector("#todoDate").value;
+  const priority = document.querySelector(
+    'input[name="priorityOption"]:checked'
+  ).value;
+
+  const newTodo = new Todo(taskName, taskDescription, dueDate, priority);
+  const projectJSON = JSON.parse(localStorage.getItem(projectName));
+  const updateProject = Object.assign(new Project(), projectJSON);
+  updateProject.addToDo(newTodo);
+  localStorage.setItem(projectName, JSON.stringify(updateProject));
+  loadTask(newTodo);
+}
+
 export {
   loadProject,
   loadProjectList,
   updateProjectList,
   initialLoad,
-  addTask,
+  createTodo,
 };

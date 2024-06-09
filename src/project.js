@@ -12,14 +12,16 @@ class Project {
     this._name = name;
   }
 
+  get todos() {
+    return this._todos;
+  }
+
   addToDo(item) {
     this._todos.push(item);
-    numOfTodos++;
   }
 
   removeToDo(index) {
     this._todos.splice(index, 1);
-    numOfTodos--;
   }
 }
 
