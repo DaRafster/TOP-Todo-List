@@ -10,6 +10,7 @@ function initialLoad() {
     localStorage.setItem(defaultProject._name, JSON.stringify(defaultProject));
     document.querySelector("#content").innerHTML = `
     <h2 class = "current-project">${defaultProject._name}</h2>`;
+    loadProject(JSON.parse(localStorage.getItem(defaultProject._name))._name);
   } else {
     loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
   }
@@ -95,6 +96,11 @@ function loadTask(task) {
   let editIcon = new Image();
   editIcon.src = Edit;
 
+  trashIcon.addEventListener("click", () => {
+    const projectName = document.querySelector(".current-project").innerHTML;
+    deleteTodo(projectName, taskContainer);
+  });
+
   taskContainer.innerHTML = `
   <div>
     <div class = "task-info2">
@@ -129,6 +135,18 @@ function createTodo() {
   updateProject.addToDo(newTodo);
   localStorage.setItem(projectName, JSON.stringify(updateProject));
   loadTask(newTodo);
+}
+
+function deleteTodo(projectName, taskContainer) {
+  const projectJSON = JSON.parse(localStorage.getItem(projectName));
+  const todo = taskContainer.querySelector(".taskTitle").innerHTML;
+  projectJSON._todos = projectJSON._todos.filter(
+    (todoName) => todoName === todo
+  );
+
+  const newProject = Object.assign(new Project(), projectJSON);
+  localStorage.setItem(projectName, JSON.stringify(projectJSON));
+  taskContainer.remove();
 }
 
 export {
