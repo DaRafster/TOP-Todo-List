@@ -1,6 +1,8 @@
 import { Project } from "./project";
 import { Todo } from "./todo";
 import { format, isValid } from "date-fns";
+import Edit from "./images/text-box-edit-outline.svg";
+import Trash from "./images/trash-can-outline.svg";
 
 function initialLoad() {
   if (localStorage.length === 0) {
@@ -87,18 +89,25 @@ function loadTask(task) {
   let [year, month, day] = task._dueDate.split("-");
   const dateObject = new Date(parseInt(year), parseInt(month), parseInt(day));
 
+  let trashIcon = new Image();
+  trashIcon.src = Trash;
+
+  let editIcon = new Image();
+  editIcon.src = Edit;
+
   taskContainer.innerHTML = `
-  <div class = "task-info">
   <button class = "taskDone"></button>
   <div>
-  <div class = "task-info2">
-  <h4 class = "taskTitle">${task._title}</h4>
-  <p>${isValid(dateObject) ? format(dateObject, "LLLL d, y") : ""}</p>
-  </div>
-  <p class = "taskDescription">${task._description}</p>
-  </div>
+    <div class = "task-info2">
+    <h4 class = "taskTitle">${task._title}</h4>
+    <p>${isValid(dateObject) ? format(dateObject, "LLLL d, y") : ""}</p>
+    </div>
+    <p class = "taskDescription">${task._description}</p>
   </div>
   `;
+
+  taskContainer.appendChild(editIcon);
+  taskContainer.appendChild(trashIcon);
 
   const content = document.querySelector("#content");
   content.appendChild(taskContainer);
