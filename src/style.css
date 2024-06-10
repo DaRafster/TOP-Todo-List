@@ -15,11 +15,12 @@
 
 :root {
     --primary-color: #393939;
+    --background-color: #e9ecef;
 }
 
 body, html {
     height: 100%;
-    background-color: #e9ecef;
+    background-color: var(--background-color);
     font-family: "DM-Sans";
 }
 
@@ -74,9 +75,8 @@ form label, form input {
 }
 
 #content {
-    padding-top: 40px;
-    padding-left: 30px;
-    overflow: hidden;
+    padding: 40px 0 40px 30px;
+    overflow-x: hidden;
 }
 
 #projectDialog {
@@ -174,13 +174,17 @@ form label, form input {
     gap: 10px;
 }
 
+.current-project {
+    flex-grow: 1;
+    align-self: flex-end;
+}
+
 .add-new-todo {
     font-family: "DM-Sans";
     font-size: 1rem;
-    margin-left: 15px;
     background-color: var(--primary-color);
     border: none;
-    padding: 8px 15px;
+    padding: 8px 20px;
     color: white;
     cursor: pointer;
 }
@@ -188,7 +192,10 @@ form label, form input {
 .tasks-heading {
     display: flex;
     align-items: center;
+    justify-content: end;
     font-weight: 550;
+    width: calc(85% + 20px);
+    padding-bottom: 10px;
 }
 
 #todoDialog {
@@ -301,7 +308,7 @@ dialog {
     }
   
     100% {
-      background-color: rgb(0 0 0 / 25%);
+      background-color: rgb(0 0 0 / 50%);
     }
   }
 
@@ -324,6 +331,7 @@ dialog {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin: 10px 30px 0 30px;
     }
 
   .task-container img {
@@ -333,7 +341,15 @@ dialog {
 
   .task-info2 {
     display: flex;
+    align-items: center;
     gap: 10px;
+  }
+
+  .task-info2 p {
+    background-color: var(--background-color);
+    padding: 2px 10px;
+    border-radius: 16px;
+    font-weight: 475;
   }
   
   .taskDone {
@@ -344,4 +360,19 @@ dialog {
     background-color: white;
     border-radius: 50%;
     cursor: pointer;
+  }
+
+  .task-info2 .High {
+    color: red;
+    background-color: rgb(255, 243, 243)
+  }
+
+  .task-info2 .Medium {
+    color: orange;
+    background-color: rgb(255, 248, 233);
+  }
+
+  .task-info2 .Low {
+    color: green;
+    background-color: rgb(237, 255, 237);
   }

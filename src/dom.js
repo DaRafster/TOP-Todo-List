@@ -96,11 +96,12 @@ function loadTask(task) {
   editIcon.src = Edit;
 
   taskContainer.innerHTML = `
-  <button class = "taskDone"></button>
   <div>
     <div class = "task-info2">
+    <button class = "taskDone"></button>
     <h4 class = "taskTitle">${task._title}</h4>
     <p>${isValid(dateObject) ? format(dateObject, "LLLL d, y") : ""}</p>
+    <p class = "${task._priority}">${task._priority}</p>
     </div>
     <p class = "taskDescription">${task._description}</p>
   </div>
