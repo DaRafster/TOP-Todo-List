@@ -7,6 +7,12 @@ import Trash from "./images/trash-can-outline.svg";
 function initialLoad() {
   if (localStorage.length === 0) {
     const defaultProject = new Project("Default Project");
+    defaultProject.addToDo(
+      new Todo(
+        "Get Started",
+        "Add a new todo by clicking on the button at the top right!"
+      )
+    );
     localStorage.setItem(defaultProject._name, JSON.stringify(defaultProject));
     document.querySelector(".current-project").innerHTML = defaultProject._name;
     loadProject(JSON.parse(localStorage.getItem(defaultProject._name))._name);
@@ -83,8 +89,13 @@ function loadTasks() {
 function loadTask(task) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
-  let [year, month, day] = task._dueDate.split("-");
-  const dateObject = new Date(parseInt(year), parseInt(month), parseInt(day));
+
+  let dateObject = null;
+
+  if (task._date !== undefined) {
+    let [year, month, day] = task._dueDate.split("-");
+    dateObject = new Date(parseInt(year), parseInt(month), parseInt(day));
+  }
 
   let trashIcon = new Image();
   trashIcon.src = Trash;
@@ -112,11 +123,11 @@ function loadTask(task) {
     innerDiv2.innerHTML += `<p>${format(dateObject, "LLLL d, y")}</p>`;
   }
 
-  if (task._priority !== null) {
+  if (task._priority !== undefined) {
     innerDiv2.innerHTML += `<p class = "${task._priority}">${task._priority}</p>`;
   }
 
-  if (task._description !== null) {
+  if (task._description !== undefined) {
     innerDiv.innerHTML += `<p class = "taskDescription">${task._description}</p>`;
   }
 
