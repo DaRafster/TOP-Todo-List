@@ -106,12 +106,23 @@ function loadTask(task) {
     <div class = "task-info2">
     <button class = "taskDone"></button>
     <h4 class = "taskTitle">${task._title}</h4>
-    <p>${isValid(dateObject) ? format(dateObject, "LLLL d, y") : ""}</p>
-    <p class = "${task._priority}">${task._priority}</p>
     </div>
-    <p class = "taskDescription">${task._description}</p>
   </div>
   `;
+
+  const innerDiv = taskContainer.querySelector("div");
+  const innerDiv2 = taskContainer.querySelector(".task-info2");
+  if (isValid(dateObject)) {
+    innerDiv2.innerHTML += `<p>${format(dateObject, "LLLL d, y")}</p>`;
+  }
+
+  if (task._priority !== null) {
+    innerDiv2.innerHTML += `<p class = "${task._priority}">${task._priority}</p>`;
+  }
+
+  if (task._description !== null) {
+    innerDiv.innerHTML += `<p class = "taskDescription">${task._description}</p>`;
+  }
 
   taskContainer.appendChild(editIcon);
   taskContainer.appendChild(trashIcon);
@@ -125,9 +136,10 @@ function createTodo() {
   const taskName = document.querySelector("#todoTitle").value;
   const taskDescription = document.querySelector("#todoDesc").value;
   const dueDate = document.querySelector("#todoDate").value;
-  const priority = document.querySelector(
+  const priorityNode = document.querySelector(
     'input[name="priorityOption"]:checked'
-  ).value;
+  );
+  const priority = priorityNode !== null ? priorityNode.value : null;
 
   const newTodo = new Todo(taskName, taskDescription, dueDate, priority);
   const projectJSON = JSON.parse(localStorage.getItem(projectName));
@@ -139,13 +151,11 @@ function createTodo() {
 
 function deleteTodo(projectName, taskContainer) {
   const projectJSON = JSON.parse(localStorage.getItem(projectName));
-  const todo = taskContainer.querySelector(".taskTitle").innerHTML;
-  projectJSON._todos = projectJSON._todos.filter(
-    (todoName) => todoName === todo
-  );
-
   const newProject = Object.assign(new Project(), projectJSON);
-  localStorage.setItem(projectName, JSON.stringify(projectJSON));
+  const todo = taskContainer.querySelector(".taskTitle").innerHTML;
+  newProject.removeToDo(todo);
+
+  localStorage.setItem(projectName, JSON.stringify(newProject));
   taskContainer.remove();
 }
 

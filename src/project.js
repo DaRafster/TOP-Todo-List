@@ -20,8 +20,8 @@ class Project {
     this._todos.push(item);
   }
 
-  removeToDo(index) {
-    this._todos.splice(index, 1);
+  removeToDo(name) {
+    this._todos = this._todos.filter((todo) => todo === name);
   }
 }
 
