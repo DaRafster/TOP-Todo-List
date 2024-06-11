@@ -8,8 +8,7 @@ function initialLoad() {
   if (localStorage.length === 0) {
     const defaultProject = new Project("Default Project");
     localStorage.setItem(defaultProject._name, JSON.stringify(defaultProject));
-    document.querySelector("#content").innerHTML = `
-    <h2 class = "current-project">${defaultProject._name}</h2>`;
+    document.querySelector(".current-project").innerHTML = defaultProject._name;
     loadProject(JSON.parse(localStorage.getItem(defaultProject._name))._name);
   } else {
     loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
@@ -18,27 +17,9 @@ function initialLoad() {
   loadProjectList();
   const todoDialog = document.querySelector("#todoDialog");
   const showTodoDialogButton = document.querySelector(".add-new-todo");
+  const cancelButton = document.querySelector("#cancelButton");
   const todoForm = todoDialog.querySelector("form");
 
-  showTodoDialogButton.addEventListener("click", () => {
-    todoForm.reset();
-    todoDialog.showModal();
-  });
-
-  const closeTodoDialogButton = document.querySelector("#cancelButton");
-  closeTodoDialogButton.addEventListener("click", () => {
-    todoDialog.close();
-  });
-}
-
-function loadProject(projectName) {
-  const content = document.querySelector("#content");
-  const tempProject = JSON.parse(localStorage.getItem(projectName));
-  content.innerHTML = `<div class = "tasks-heading"><h2 class = "current-project">${tempProject._name}</h2><button class = "add-new-todo">New Task +</button><div>`;
-  const todoDialog = document.querySelector("#todoDialog");
-  const todoForm = todoDialog.querySelector("form");
-  const showTodoDialogButton = document.querySelector(".add-new-todo");
-  loadTasks();
   showTodoDialogButton.addEventListener("click", () => {
     todoForm.reset();
     todoDialog.showModal();
@@ -50,6 +31,21 @@ function loadProject(projectName) {
     todoForm.reset();
     todoDialog.close();
   });
+
+  cancelButton.addEventListener("click", () => {
+    todoForm.reset();
+    todoDialog.close();
+  });
+}
+
+function loadProject(projectName) {
+  const tempProject = JSON.parse(localStorage.getItem(projectName));
+  const tempName = document.querySelector(".current-project");
+  const content = document.querySelector("#content2");
+  content.innerHTML = "";
+  tempName.innerHTML = tempProject._name;
+
+  loadTasks();
 }
 
 function loadProjectList() {
@@ -127,7 +123,7 @@ function loadTask(task) {
   taskContainer.appendChild(editIcon);
   taskContainer.appendChild(trashIcon);
 
-  const content = document.querySelector("#content");
+  const content = document.querySelector("#content2");
   content.appendChild(taskContainer);
 }
 
