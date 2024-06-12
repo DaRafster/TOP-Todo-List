@@ -20,8 +20,22 @@ class Project {
     this._todos.push(item);
   }
 
-  removeToDo(name) {
-    this._todos = this._todos.filter((todo) => todo === name);
+  removeToDo(taskId) {
+    this._todos = this._todos.filter((todo) => todo.id !== taskId);
+  }
+
+  updateTodo(taskId, task) {
+    for (let i = 0; i < this._todos.length; i++) {
+      if (this._todos[i].id === taskId) {
+        this._todos[i].title = task.title;
+        this._todos[i].description = task.description;
+        this._todos[i].priority = task.priority;
+        this._todos[i].dueDate = task.dueDate;
+        this._todos[i].timeDue = task.timeDue;
+        this._todos[i].id = task.id;
+        return;
+      }
+    }
   }
 }
 

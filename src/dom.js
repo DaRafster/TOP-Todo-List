@@ -25,6 +25,10 @@ function initialLoad() {
   const showTodoDialogButton = document.querySelector(".add-new-todo");
   const cancelButton = document.querySelector("#cancelButton");
   const todoForm = todoDialog.querySelector("form");
+  const editTodoDialog = document.querySelector("#editTodoDialog");
+  const editCancelButton = document.querySelector("#editCancelButton");
+  const editConfirmButton = document.querySelector("#editConfirm");
+  const editTodoForm = editTodoDialog.querySelector("form");
 
   showTodoDialogButton.addEventListener("click", () => {
     todoForm.reset();
@@ -41,6 +45,11 @@ function initialLoad() {
   cancelButton.addEventListener("click", () => {
     todoForm.reset();
     todoDialog.close();
+  });
+
+  editCancelButton.addEventListener("click", () => {
+    editTodoForm.reset();
+    editTodoDialog.close();
   });
 }
 
@@ -90,10 +99,9 @@ function loadTask(task) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
 
-  let dateObject = null;
-
-  if (task._date !== undefined) {
-    let [year, month, day] = task._dueDate.split("-");
+  let dateObject;
+  if (task.dueDate !== undefined && task.dueDate !== null) {
+    let [year, month, day] = task.dueDate.split("-");
     dateObject = new Date(parseInt(year), parseInt(month), parseInt(day));
   }
 
@@ -105,14 +113,66 @@ function loadTask(task) {
 
   trashIcon.addEventListener("click", () => {
     const projectName = document.querySelector(".current-project").innerHTML;
-    deleteTodo(projectName, taskContainer);
+    deleteTodo(projectName, taskContainer, task);
+  });
+
+  function updateTask(event) {
+    event.preventDefault();
+    const editTitle = document.querySelector("#editTodoTitle").value;
+    const editDescription = document.querySelector("#editTodoDesc").value;
+    const editDueDate = document.querySelector("#editTodoDate").value;
+    const editTime = document.querySelector("#editTodoTime").value;
+    const [editLow, editMedium, editHigh] = [
+      ...document.getElementsByName("editPriorityOption"),
+    ];
+    const projectName = document.querySelector(".current-project").innerHTML;
+    const currentProject = JSON.parse(localStorage.getItem(projectName));
+    const updatedProject = Object.assign(new Project(), currentProject);
+
+    let editPriority = null;
+    if (editLow.checked) {
+      editPriority = "Low";
+    } else if (editMedium.checked) {
+      editPriority = "Medium";
+    } else if (editHigh.checked) {
+      editPriority = "High";
+    }
+
+    const newTask = new Todo(
+      editTitle,
+      editDescription,
+      editDueDate,
+      editPriority,
+      editTime
+    );
+
+    updatedProject.updateTodo(task.id, newTask);
+    localStorage.removeItem(projectName);
+    localStorage.setItem(projectName, JSON.stringify(updatedProject));
+
+    const editTodoDialog = document.querySelector("#editTodoDialog");
+    const editDialogForm = document.querySelector("#editTodoDialog form");
+    loadProject(projectName);
+    editDialogForm.reset();
+    editTodoDialog.close();
+
+    editDialogForm.removeEventListener("submit", updateTask);
+  }
+
+  editIcon.addEventListener("click", () => {
+    const editTodoDialog = document.querySelector("#editTodoDialog");
+    editTodoDialog.showModal();
+
+    updateForm(task);
+    const editDialogForm = document.querySelector("#editTodoDialog form");
+    editDialogForm.addEventListener("submit", updateTask);
   });
 
   taskContainer.innerHTML = `
   <div>
     <div class = "task-info2">
     <button class = "taskDone"></button>
-    <h4 class = "taskTitle">${task._title}</h4>
+    <h4 class = "taskTitle">${task.title}</h4>
     </div>
   </div>
   `;
@@ -120,15 +180,26 @@ function loadTask(task) {
   const innerDiv = taskContainer.querySelector("div");
   const innerDiv2 = taskContainer.querySelector(".task-info2");
   if (isValid(dateObject)) {
-    innerDiv2.innerHTML += `<p>${format(dateObject, "LLLL d, y")}</p>`;
+    innerDiv2.innerHTML += `<p class = "date">${format(
+      dateObject,
+      "LLLL d, y"
+    )}</p>`;
   }
 
-  if (task._priority !== undefined) {
-    innerDiv2.innerHTML += `<p class = "${task._priority}">${task._priority}</p>`;
+  if (
+    task.timeDue !== undefined &&
+    task.timeDue !== null &&
+    task.timeDue !== ""
+  ) {
+    innerDiv2.innerHTML += `<p class = "time">${getTime(task.timeDue)}</p>`;
   }
 
-  if (task._description !== undefined) {
-    innerDiv.innerHTML += `<p class = "taskDescription">${task._description}</p>`;
+  if (task.priority !== undefined && task.priority !== null) {
+    innerDiv2.innerHTML += `<p class = "${task.priority}">${task.priority}</p>`;
+  }
+
+  if (task.description !== undefined && task.description !== null) {
+    innerDiv.innerHTML += `<p class = "taskDescription">${task.description}</p>`;
   }
 
   taskContainer.appendChild(editIcon);
@@ -143,12 +214,19 @@ function createTodo() {
   const taskName = document.querySelector("#todoTitle").value;
   const taskDescription = document.querySelector("#todoDesc").value;
   const dueDate = document.querySelector("#todoDate").value;
+  const timeDue = document.querySelector("#todoTime").value;
   const priorityNode = document.querySelector(
     'input[name="priorityOption"]:checked'
   );
   const priority = priorityNode !== null ? priorityNode.value : null;
 
-  const newTodo = new Todo(taskName, taskDescription, dueDate, priority);
+  const newTodo = new Todo(
+    taskName,
+    taskDescription,
+    dueDate,
+    priority,
+    timeDue
+  );
   const projectJSON = JSON.parse(localStorage.getItem(projectName));
   const updateProject = Object.assign(new Project(), projectJSON);
   updateProject.addToDo(newTodo);
@@ -156,14 +234,65 @@ function createTodo() {
   loadTask(newTodo);
 }
 
-function deleteTodo(projectName, taskContainer) {
+function deleteTodo(projectName, taskContainer, task) {
   const projectJSON = JSON.parse(localStorage.getItem(projectName));
   const newProject = Object.assign(new Project(), projectJSON);
-  const todo = taskContainer.querySelector(".taskTitle").innerHTML;
-  newProject.removeToDo(todo);
-
+  newProject.removeToDo(task.id);
   localStorage.setItem(projectName, JSON.stringify(newProject));
   taskContainer.remove();
+}
+
+function updateForm(task) {
+  const editTodoForm = document.querySelector("#editTodoDialog form");
+  const editTitle = document.querySelector("#editTodoTitle");
+  const editDescription = document.querySelector("#editTodoDesc");
+  const editDate = document.querySelector("#editTodoDate");
+  const editTime = document.querySelector("#editTodoTime");
+  const [lowPriorityBtn, mediumPriorityBtn, highPriorityBtn] = [
+    ...document.getElementsByName("editPriorityOption"),
+  ];
+
+  editTitle.value = task.title;
+
+  if (editDescription !== undefined && editDescription !== null) {
+    editDescription.value = task.description;
+  }
+
+  if (editDate !== undefined && editDate !== null) {
+    editDate.value = task.dueDate;
+  }
+
+  if (editTime !== undefined && editTime !== null) {
+    editTime.value = task.timeDue;
+  }
+
+  if (task.priority === "Low") {
+    lowPriorityBtn.checked = true;
+  } else if (task.priority === "Medium") {
+    mediumPriorityBtn.checked = true;
+  } else if (task.priority === "Hard") {
+    highPriorityBtn.checked = true;
+  }
+}
+
+function getTime(time) {
+  let [hours, minutes] = [...time.split(":")];
+  let meridian;
+
+  if (hours > 12) {
+    meridian = "PM";
+    hours -= 12;
+  } else if (hours < 12) {
+    meridian = "AM";
+    if (hours == 0) {
+      hours = 12;
+    }
+    hours = hours[1];
+  } else {
+    meridian = "PM";
+  }
+
+  return `${hours}:${minutes} ${meridian}`;
 }
 
 export {

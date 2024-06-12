@@ -89,7 +89,7 @@ form label, form input {
     margin-bottom: 10px;
 }
 
-#projectDialog input, #todoDialog input:not(input[type="date"]) {
+#projectDialog input, #todoDialog input:not(input[type="date"]), #editTodoDialog input:not(input[type="date"]) {
     font-size: 1rem;
     border: solid black 1.5px;
     width: 95%;
@@ -97,7 +97,7 @@ form label, form input {
     padding: 5px;
 }
 
-#todoDialog input[type="date"] {
+#todoDialog input[type="date"], #editTodoDialog input[type="date"] {
     padding: 5px;
     font-size: 1rem;
     border: solid black 1.5px;
@@ -108,7 +108,7 @@ form label, form input {
     cursor: pointer;
 }
 
-#todoDialog input[type="time"] {
+#todoDialog input[type="time"], #editTodoDialog input[type="time"] {
     width: 100%;
     height: 30%;
     display: flex;
@@ -116,19 +116,19 @@ form label, form input {
     cursor: pointer;
 }
 
-#todoDialog input {
+#todoDialog input, #editTodoDialog input {
     margin: 10px 0;
 }
 
-#todoDialog label, #todoDialog p {
+#todoDialog label, #todoDialog p, #editTodoDialog label, #editTodoDialog label {
     font-weight: 500;
 }
 
-#todoDialog p {
+#todoDialog p, #editTodoDialog p {
     margin: 10px 0;
 }
 
-#todoDialog textarea {
+#todoDialog textarea, #editTodoDialog textarea {
     margin: 10px 0;
     width: 95%;
     font-size: 1rem;
@@ -137,7 +137,7 @@ form label, form input {
     resize: none;
 }
 
-#todoDialog > form > div:first-of-type {
+#todoDialog > form > div:first-of-type, #editTodoDialog > form > div:first-of-type {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 95%;
@@ -156,7 +156,7 @@ form label, form input {
     gap: 10px;
 }
 
-#projectDialog button, #todoDialog button {
+#projectDialog button, #todoDialog button, #editTodoDialog button {
     padding: 10px 20px;
     font-size: 0.9rem;
     font-weight: 550;
@@ -198,16 +198,17 @@ form label, form input {
     padding-bottom: 10px;
 }
 
-#todoDialog {
+#todoDialog, #editTodoDialog {
     width: 20%;
     height: fit-content;
 }
 
-#cancelButton, #confirm {
+#cancelButton, #confirm, #editCancelButton, #editConfirm {
     transition: ease-in-out 0.2s;
 }
 
-#cancelButton:hover, .taskDialogOptions #confirm:hover, #projectDialog button:hover {
+#cancelButton:hover, .taskDialogOptions #confirm:hover, #projectDialog button:hover,
+#editCancelButton:hover, .taskDialogOptions #editConfirm:hover{
     background-color: #DDD;;
 }
 
@@ -375,4 +376,8 @@ dialog {
   .task-info2 .Low {
     color: green;
     background-color: rgb(237, 255, 237);
+  }
+
+  .task-info2 .time {
+    background-color: var(--background-color);
   }

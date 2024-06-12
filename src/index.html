@@ -93,6 +93,72 @@
           </form>
         </dialog>
 
+        <dialog id="editTodoDialog">
+          <h3>New Task</h3>
+          <form action="">
+            <input
+              type="text"
+              name="editTodoTitle"
+              id="editTodoTitle"
+              placeholder="Enter task"
+              required
+            />
+            <label for="editTodoDesc">Description: </label>
+            <textarea
+              name="editTodoDesc"
+              id="editTodoDesc"
+              rows="5"
+              placeholder="Enter description"
+            ></textarea>
+            <div>
+              <div>
+                <label for="editTodoDate">Due date: </label>
+                <input type="date" name="editTodoDate" id="editTodoDate" />
+              </div>
+              <div>
+                <label for="editTodoTime">Time due: </label>
+                <input type="time" name="editTodoTime" id="editTodoTime" />
+              </div>
+            </div>
+            <p>Priority:</p>
+            <ul class="priorityOptions">
+              <li>
+                <input
+                  type="radio"
+                  name="editPriorityOption"
+                  id="editPriorityOption1"
+                  value="Low"
+                />
+                <label for="editPriorityOption1" class="btn">Low</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name="editPriorityOption"
+                  id="editPriorityOption2"
+                  value="Medium"
+                />
+                <label for="editPriorityOption2" class="btn">Medium</label>
+              </li>
+              <li>
+                <input
+                  type="radio"
+                  name="editPriorityOption"
+                  id="editPriorityOption3"
+                  value="High"
+                />
+                <label for="editPriorityOption3" class="btn">High</label>
+              </li>
+            </ul>
+            <div class="taskDialogOptions">
+              <button type="button" id="editCancelButton">Cancel</button>
+              <button id="editConfirm" class="confirmTodo" type="submit">
+                Add Task
+              </button>
+            </div>
+          </form>
+        </dialog>
+
         <div class="project-list"></div>
       </div>
       <div id="content">
