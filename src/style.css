@@ -34,6 +34,9 @@ body, html {
     background-color: var(--primary-color);
     color: white;
     padding: 40px 0 0 30px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar h1 {
@@ -56,18 +59,24 @@ form label, form input {
     margin-left: 5px;
 }
 
+.project-list {
+  width: 100%;
+}
+
 .project-list button {
     display: block;
     cursor: pointer;
     font-size: 1.2rem;
-    width: 100%;
-    text-align: left;
-    border: none;
     background-color: inherit;
     color: white;
     font-family: "DM-Sans";
     margin: 15px 0;
     font-weight: 500;
+    border: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+    text-align: left;
 }
 
 .project-list button:first-child {
@@ -166,7 +175,7 @@ form label, form input {
 }
 
 #projectDialog button {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 #projectDialog div {
@@ -381,3 +390,14 @@ dialog {
   .task-info2 .time {
     background-color: var(--background-color);
   }
+
+  .error {
+    margin: 10px 0;
+    color: red;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+ 
