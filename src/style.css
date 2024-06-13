@@ -186,6 +186,7 @@ form label, form input {
 .current-project {
     flex-grow: 1;
     align-self: flex-end;
+    width: 20%;
 }
 
 .add-new-todo {

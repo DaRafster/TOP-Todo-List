@@ -25,14 +25,16 @@ projectForm.addEventListener("submit", (event) => {
   const errorMessage = document.querySelector(".error");
   for (let i = 0; i < localStorage.length; i++) {
     const currProject = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    if (currProject._name === currProject.name) {
-      errorMessage.classList.toggle("hidden");
+    if (projectName === currProject._name) {
+      errorMessage.classList.remove("hidden");
       return;
     }
   }
 
-  errorMessage.classList.remove("hidden");
-  errorMessage.classList.add("hidden");
+  if (!errorMessage.classList.contains("hidden")) {
+    errorMessage.classList.add("hidden");
+  }
+
   let project = new Project(projectName);
   localStorage.setItem(projectName, JSON.stringify(project));
   updateProjectList(projectName);
