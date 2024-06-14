@@ -58,7 +58,25 @@ function loadProject(projectName) {
   const tempName = document.querySelector(".current-project");
   const content = document.querySelector("#content2");
   content.innerHTML = "";
-  tempName.innerHTML = tempProject._name;
+  tempName.innerHTML = projectName;
+
+  const imageDiv = document.createElement("div");
+  imageDiv.classList.add("project-options");
+
+  let trashIcon = new Image();
+  trashIcon.src = Trash;
+  trashIcon.classList.add("delete-project");
+
+  let editIcon = new Image();
+  editIcon.src = Edit;
+  editIcon.classList.add("edit-project");
+
+  imageDiv.appendChild(editIcon);
+  imageDiv.appendChild(trashIcon);
+
+  const tasksHeading = document.querySelector(".tasks-heading");
+  tasksHeading.appendChild(imageDiv);
+  tasksHeading.innerHTML += `<button class="add-new-todo">New Task +</button>`;
 
   loadTasks();
 }
@@ -107,9 +125,11 @@ function loadTask(task) {
 
   let trashIcon = new Image();
   trashIcon.src = Trash;
+  trashIcon.classList.add("delete-task");
 
   let editIcon = new Image();
   editIcon.src = Edit;
+  editIcon.classList.add("edit-task");
 
   trashIcon.addEventListener("click", () => {
     const projectName = document.querySelector(".current-project").innerHTML;

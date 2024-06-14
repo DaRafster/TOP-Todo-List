@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo List</title>
+    <title>Anitasks</title>
   </head>
   <body>
     <div class="container">
@@ -24,6 +24,25 @@
             <div>
               <button type="button">Cancel</button>
               <button class="confirmProject" type="submit">Add Project</button>
+            </div>
+          </form>
+        </dialog>
+
+        <dialog id="editProjectDialog">
+          <h3>New Project</h3>
+          <form action="">
+            <input
+              type="text"
+              name="editProjectName"
+              id="editProjectName"
+              placeholder="Enter project name"
+            />
+            <p class="error hidden">*Project name already exists</p>
+            <div>
+              <button type="button">Cancel</button>
+              <button class="editConfirmProject" type="submit">
+                Add Project
+              </button>
             </div>
           </form>
         </dialog>
@@ -164,8 +183,7 @@
       </div>
       <div id="content">
         <div class="tasks-heading">
-          <h2 class="current-project">Default Project</h2>
-          <button class="add-new-todo">New Task +</button>
+          <h2 class="current-project"></h2>
         </div>
         <div id="content2"></div>
       </div>

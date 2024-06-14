@@ -184,9 +184,15 @@ form label, form input {
 }
 
 .current-project {
-    flex-grow: 1;
-    align-self: flex-end;
     width: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.project-options {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
 }
 
 .add-new-todo {
@@ -202,7 +208,6 @@ form label, form input {
 .tasks-heading {
     display: flex;
     align-items: center;
-    justify-content: end;
     font-weight: 550;
     width: calc(85% + 20px);
     padding-bottom: 10px;
@@ -401,4 +406,15 @@ dialog {
     visibility: hidden;
   }
 
+  .delete-project, .edit-project {
+    cursor: pointer;
+  }
+
+  .delete-project:hover, .delete-task:hover {
+    filter: invert(26%) sepia(94%) saturate(6789%) hue-rotate(356deg) brightness(97%) contrast(121%);
+  }
+
+  .edit-project:hover, .edit-task:hover {
+    filter: invert(23%) sepia(85%) saturate(6681%) hue-rotate(206deg) brightness(90%) contrast(84%);
+  }
  
