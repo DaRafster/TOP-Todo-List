@@ -17,6 +17,10 @@ showProjectDialogButton.addEventListener("click", () => {
 closeProjectDialogButton.addEventListener("click", () => {
   projectForm.reset();
   projectDialog.close();
+  const errorMessage = document.querySelector(".error");
+  if (!errorMessage.classList.contains("hidden")) {
+    errorMessage.classList.add("hidden");
+  }
 });
 
 projectForm.addEventListener("submit", (event) => {
