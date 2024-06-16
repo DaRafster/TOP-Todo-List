@@ -22,13 +22,15 @@ function initialLoad() {
 
   loadProjectList();
   const todoDialog = document.querySelector("#todoDialog");
-  const showTodoDialogButton = document.querySelector(".add-new-todo");
   const cancelButton = document.querySelector("#cancelButton");
   const todoForm = todoDialog.querySelector("form");
   const editTodoDialog = document.querySelector("#editTodoDialog");
   const editCancelButton = document.querySelector("#editCancelButton");
-  const editConfirmButton = document.querySelector("#editConfirm");
   const editTodoForm = editTodoDialog.querySelector("form");
+  const editProjectCancel = document.querySelector("#editProjectDialog button");
+  const editProjectDialog = document.querySelector("#editProjectDialog");
+  const editProjectForm = editProjectDialog.querySelector("form");
+  const showTodoDialogButton = document.querySelector(".add-new-todo");
 
   showTodoDialogButton.addEventListener("click", () => {
     todoForm.reset();
@@ -51,38 +53,74 @@ function initialLoad() {
     editTodoForm.reset();
     editTodoDialog.close();
   });
+
+  editProjectCancel.addEventListener("click", () => {
+    editProjectForm.reset();
+    editProjectDialog.close();
+  });
+
+  editProjectForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateProject();
+    editProjectDialog.close();
+  });
+}
+
+function updateProject() {
+  const currentProject = document.querySelector(".current-project").innerHTML;
+  const projectJSON = JSON.parse(localStorage.getItem(currentProject));
+  const newProject = Object.assign(new Project(), projectJSON);
+
+  const newProjectName = document.querySelector(
+    "#editProjectDialog input"
+  ).value;
+  newProject.name = newProjectName;
+
+  localStorage.removeItem(currentProject);
+  localStorage.setItem(newProjectName, JSON.stringify(newProject));
+
+  loadProjectList();
+  loadProject(newProjectName);
 }
 
 function loadProject(projectName) {
-  const tempProject = JSON.parse(localStorage.getItem(projectName));
   const tempName = document.querySelector(".current-project");
+  if (tempName.innerHTML === projectName) {
+    return;
+  }
+
+  const tasksHeading = document.querySelector(".tasks-heading");
   const content = document.querySelector("#content2");
   content.innerHTML = "";
   tempName.innerHTML = projectName;
 
-  const imageDiv = document.createElement("div");
-  imageDiv.classList.add("project-options");
+  const editIcon = document.querySelector(".edit-project");
+  const trashIcon = document.querySelector(".delete-project");
 
-  let trashIcon = new Image();
-  trashIcon.src = Trash;
-  trashIcon.classList.add("delete-project");
-
-  let editIcon = new Image();
   editIcon.src = Edit;
-  editIcon.classList.add("edit-project");
+  trashIcon.src = Trash;
 
-  imageDiv.appendChild(editIcon);
-  imageDiv.appendChild(trashIcon);
+  const addTaskButton = document.querySelector(".add-new-todo");
+  const projectOptions = document.querySelector(".project-options");
+  tasksHeading.insertBefore(projectOptions, addTaskButton);
 
-  const tasksHeading = document.querySelector(".tasks-heading");
-  tasksHeading.appendChild(imageDiv);
-  tasksHeading.innerHTML += `<button class="add-new-todo">New Task +</button>`;
+  const editProjectDialog = document.querySelector("#editProjectDialog");
+  const editButton = document.querySelector(".edit-project");
+
+  editButton.addEventListener("click", () => {
+    editProjectDialog.showModal();
+    const inputProjectName = editProjectDialog.querySelector("input");
+    const currProjectName =
+      document.querySelector(".current-project").innerHTML;
+    inputProjectName.value = currProjectName;
+  });
 
   loadTasks();
 }
 
 function loadProjectList() {
   const projectList = document.querySelector(".project-list");
+  projectList.innerHTML = "";
   for (let i = 0; i < localStorage.length; i++) {
     const projectTitle = document.createElement("button");
     const project = JSON.parse(localStorage.getItem(localStorage.key(i)));
@@ -306,8 +344,9 @@ function getTime(time) {
     meridian = "AM";
     if (hours == 0) {
       hours = 12;
+    } else {
+      hours = hours[1];
     }
-    hours = hours[1];
   } else {
     meridian = "PM";
   }

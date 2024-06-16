@@ -19,6 +19,8 @@
               name="projectName"
               id="projectName"
               placeholder="Enter project name"
+              minlength="2"
+              maxlength="30"
             />
             <p class="error hidden">*Project name already exists</p>
             <div>
@@ -29,20 +31,20 @@
         </dialog>
 
         <dialog id="editProjectDialog">
-          <h3>New Project</h3>
+          <h3>Edit Project</h3>
           <form action="">
             <input
               type="text"
               name="editProjectName"
               id="editProjectName"
               placeholder="Enter project name"
+              minlength="2"
+              maxlength="30"
             />
             <p class="error hidden">*Project name already exists</p>
             <div>
               <button type="button">Cancel</button>
-              <button class="editConfirmProject" type="submit">
-                Add Project
-              </button>
+              <button class="editConfirmProject" type="submit">Confirm</button>
             </div>
           </form>
         </dialog>
@@ -184,6 +186,11 @@
       <div id="content">
         <div class="tasks-heading">
           <h2 class="current-project"></h2>
+          <div class="project-options">
+            <img class="edit-project" src="" alt="" />
+            <img class="delete-project" src="" alt="" />
+          </div>
+          <button class="add-new-todo">New Task +</button>
         </div>
         <div id="content2"></div>
       </div>
