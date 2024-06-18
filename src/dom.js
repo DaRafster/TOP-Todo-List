@@ -15,10 +15,9 @@ function initialLoad() {
     );
     localStorage.setItem(defaultProject._name, JSON.stringify(defaultProject));
     document.querySelector(".current-project").innerHTML = defaultProject._name;
-    loadProject(JSON.parse(localStorage.getItem(defaultProject._name))._name);
-  } else {
-    loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
   }
+
+  loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
 
   loadProjectList();
   const todoDialog = document.querySelector("#todoDialog");
@@ -31,6 +30,8 @@ function initialLoad() {
   const editProjectDialog = document.querySelector("#editProjectDialog");
   const editProjectForm = editProjectDialog.querySelector("form");
   const showTodoDialogButton = document.querySelector(".add-new-todo");
+  const editButton = document.querySelector(".edit-project");
+  const deleteButton = document.querySelector(".delete-project");
 
   showTodoDialogButton.addEventListener("click", () => {
     todoForm.reset();
@@ -64,6 +65,30 @@ function initialLoad() {
     updateProject();
     editProjectDialog.close();
   });
+
+  editButton.addEventListener("click", () => {
+    editProjectDialog.showModal();
+    const inputProjectName = editProjectDialog.querySelector("input");
+    const currProjectName =
+      document.querySelector(".current-project").innerHTML;
+    inputProjectName.value = currProjectName;
+  });
+
+  deleteButton.addEventListener("click", () => {
+    const currProjectName =
+      document.querySelector(".current-project").innerHTML;
+    localStorage.removeItem(currProjectName);
+
+    if (localStorage.length === 0) {
+      const tasksHeading = document.querySelector(".tasks-heading");
+      tasksHeading.style.visibility = "hidden";
+      const content = document.querySelector("#content2");
+      content.innerHTML = "";
+    } else {
+      loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
+    }
+    loadProjectList();
+  });
 }
 
 function updateProject() {
@@ -85,9 +110,6 @@ function updateProject() {
 
 function loadProject(projectName) {
   const tempName = document.querySelector(".current-project");
-  if (tempName.innerHTML === projectName) {
-    return;
-  }
 
   const tasksHeading = document.querySelector(".tasks-heading");
   const content = document.querySelector("#content2");
@@ -103,17 +125,6 @@ function loadProject(projectName) {
   const addTaskButton = document.querySelector(".add-new-todo");
   const projectOptions = document.querySelector(".project-options");
   tasksHeading.insertBefore(projectOptions, addTaskButton);
-
-  const editProjectDialog = document.querySelector("#editProjectDialog");
-  const editButton = document.querySelector(".edit-project");
-
-  editButton.addEventListener("click", () => {
-    editProjectDialog.showModal();
-    const inputProjectName = editProjectDialog.querySelector("input");
-    const currProjectName =
-      document.querySelector(".current-project").innerHTML;
-    inputProjectName.value = currProjectName;
-  });
 
   loadTasks();
 }
@@ -262,6 +273,12 @@ function loadTask(task) {
 
   taskContainer.appendChild(editIcon);
   taskContainer.appendChild(trashIcon);
+
+  const checkButton = taskContainer.querySelector(".taskDone");
+  checkButton.addEventListener("click", () => {
+    checkButton.classList.toggle("btn-completed");
+    taskContainer.classList.toggle("completed");
+  });
 
   const content = document.querySelector("#content2");
   content.appendChild(taskContainer);
