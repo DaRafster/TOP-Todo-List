@@ -84,9 +84,12 @@ function initialLoad() {
     if (localStorage.length === 0) {
       const tasksHeading = document.querySelector(".tasks-heading");
       tasksHeading.style.visibility = "hidden";
+
       const content = document.querySelector("#content2");
       content.innerHTML = `<div id="tasksTodo"></div>
           <div id="completedTasks"><h4>Completed</h4></div>`;
+      const completedHeader = document.querySelector("#completedTasks");
+      completedHeader.style.visibility = "hidden";
     } else {
       loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
     }
@@ -173,7 +176,7 @@ function loadTask(task) {
   let dateObject;
   if (task.dueDate !== undefined && task.dueDate !== null) {
     let [year, month, day] = task.dueDate.split("-");
-    dateObject = new Date(parseInt(year), parseInt(month), parseInt(day));
+    dateObject = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   }
 
   let trashIcon = new Image();
@@ -254,10 +257,23 @@ function loadTask(task) {
   const innerDiv = taskContainer.querySelector("div");
   const innerDiv2 = taskContainer.querySelector(".task-info2");
   if (isValid(dateObject)) {
-    innerDiv2.innerHTML += `<p class = "date">${format(
-      dateObject,
-      "LLLL d, y"
-    )}</p>`;
+    const today = new Date();
+    const diffTime = Math.abs(dateObject - today);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (dateObject.toDateString() === today.toDateString()) {
+      innerDiv2.innerHTML += `<p class = "date">Today</p>`;
+    } else if (today < dateObject && diffDays <= 6) {
+      innerDiv2.innerHTML += `<p class = "date">${format(
+        dateObject,
+        "EEEE"
+      )}</p>`;
+    } else {
+      innerDiv2.innerHTML += `<p class = "date">${format(
+        dateObject,
+        "LLL d, y"
+      )}</p>`;
+    }
   }
 
   if (

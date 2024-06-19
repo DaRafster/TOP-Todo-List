@@ -35,6 +35,9 @@ projectForm.addEventListener("submit", (event) => {
     }
   }
 
+  const tasksHeading = document.querySelector(".tasks-heading");
+  tasksHeading.style.visibility = "visible";
+
   if (!errorMessage.classList.contains("hidden")) {
     errorMessage.classList.add("hidden");
   }

@@ -1,5 +1,3 @@
-import { compareAsc } from "date-fns";
-
 class Project {
   constructor(name) {
     this._name = name;
@@ -41,14 +39,32 @@ class Project {
   }
 
   sortTodos() {
-    console.table(this._todos);
     this._todos = this._todos.sort((a, b) => {
-      const aDate = new Date(a.dueDate);
-      const bDate = new Date(b.dueDate);
+      let aHours, aMins;
+      let bHours, bMins;
 
-      return compareAsc(aDate, bDate);
+      if (a.timeDue !== undefined) {
+        [aHours, aMins] = a.timeDue.split(":").map(Number);
+      } else {
+        aHours = 24;
+        aMins = 59;
+      }
+
+      if (b.timeDue !== undefined) {
+        [bHours, bMins] = b.timeDue.split(":").map(Number);
+      } else {
+        bHours = 24;
+        bMins = 59;
+      }
+
+      const aDate = new Date(a.dueDate);
+      aDate.setHours(aHours, aMins);
+
+      const bDate = new Date(b.dueDate);
+      bDate.setHours(bHours, bMins);
+
+      return aDate - bDate;
     });
-    console.table(this._todos);
   }
 }
 
