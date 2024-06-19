@@ -1,3 +1,5 @@
+import { compareAsc } from "date-fns";
+
 class Project {
   constructor(name) {
     this._name = name;
@@ -36,6 +38,17 @@ class Project {
         return;
       }
     }
+  }
+
+  sortTodos() {
+    console.table(this._todos);
+    this._todos = this._todos.sort((a, b) => {
+      const aDate = new Date(a.dueDate);
+      const bDate = new Date(b.dueDate);
+
+      return compareAsc(aDate, bDate);
+    });
+    console.table(this._todos);
   }
 }
 

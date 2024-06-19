@@ -429,4 +429,8 @@ dialog {
   .btn-completed {
     background-color: orange;
   }
- 
+
+#completedTasks > h4 {
+  margin-top: 30px;
+  font-size: 1.2rem;
+}

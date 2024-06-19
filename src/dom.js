@@ -41,6 +41,8 @@ function initialLoad() {
   todoForm.addEventListener("submit", (event) => {
     event.preventDefault();
     createTodo();
+    const currentProject = document.querySelector(".current-project").innerHTML;
+    loadProject(currentProject);
     todoForm.reset();
     todoDialog.close();
   });
@@ -83,7 +85,8 @@ function initialLoad() {
       const tasksHeading = document.querySelector(".tasks-heading");
       tasksHeading.style.visibility = "hidden";
       const content = document.querySelector("#content2");
-      content.innerHTML = "";
+      content.innerHTML = `<div id="tasksTodo"></div>
+          <div id="completedTasks"><h4>Completed</h4></div>`;
     } else {
       loadProject(JSON.parse(localStorage.getItem(localStorage.key(0)))._name);
     }
@@ -113,7 +116,8 @@ function loadProject(projectName) {
 
   const tasksHeading = document.querySelector(".tasks-heading");
   const content = document.querySelector("#content2");
-  content.innerHTML = "";
+  content.innerHTML = `<div id="tasksTodo"></div>
+          <div id="completedTasks"><h4>Completed</h4></div>`;
   tempName.innerHTML = projectName;
 
   const editIcon = document.querySelector(".edit-project");
@@ -216,6 +220,7 @@ function loadTask(task) {
     );
 
     updatedProject.updateTodo(task.id, newTask);
+    updatedProject.sortTodos();
     localStorage.removeItem(projectName);
     localStorage.setItem(projectName, JSON.stringify(updatedProject));
 
@@ -276,12 +281,36 @@ function loadTask(task) {
 
   const checkButton = taskContainer.querySelector(".taskDone");
   checkButton.addEventListener("click", () => {
-    checkButton.classList.toggle("btn-completed");
-    taskContainer.classList.toggle("completed");
+    const currProject = document.querySelector(".current-project").innerHTML;
+    const objectJSON = JSON.parse(localStorage.getItem(currProject));
+    const newProject = Object.assign(new Project(), objectJSON);
+    newProject._todos = newProject.todos.filter((item) => item.id !== task.id);
+    newProject.addToDo(
+      new Todo(
+        task.title,
+        task.description,
+        task.dueDate,
+        task.priority,
+        task.timeDue,
+        !task.completed
+      )
+    );
+    newProject.sortTodos();
+    localStorage.setItem(currProject, JSON.stringify(newProject));
+    loadProject(currProject);
   });
 
-  const content = document.querySelector("#content2");
-  content.appendChild(taskContainer);
+  if (task.completed === true) {
+    checkButton.classList.add("btn-completed");
+    taskContainer.classList.add("completed");
+    const completedTasks = document.querySelector("#completedTasks");
+    completedTasks.appendChild(taskContainer);
+  } else if (task.completed === false) {
+    checkButton.classList.remove("btn-completed");
+    taskContainer.classList.remove("completed");
+    const tasksTodo = document.querySelector("#tasksTodo");
+    tasksTodo.appendChild(taskContainer);
+  }
 }
 
 function createTodo() {
@@ -305,6 +334,7 @@ function createTodo() {
   const projectJSON = JSON.parse(localStorage.getItem(projectName));
   const updateProject = Object.assign(new Project(), projectJSON);
   updateProject.addToDo(newTodo);
+  updateProject.sortTodos();
   localStorage.setItem(projectName, JSON.stringify(updateProject));
   loadTask(newTodo);
 }
